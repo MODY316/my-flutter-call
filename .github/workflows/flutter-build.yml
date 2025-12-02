@@ -29,15 +29,16 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. تنظيف المشروع (اختياري)
+      # 5. تنظيف المشروع (اختياري لكنه يحل مشاكل البناء)
       - name: Clean project
         run: flutter clean
 
-      # 6. بناء APK
+      # 6. بناء APK بصيغة Release
+      # --no-shrink يتجنب مشاكل minify/ProGuard التي قد تسبب فشل Gradle
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --no-shrink -v
 
-      # 7. رفع الـ APK
+      # 7. رفع الـ APK كـ artifact
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
