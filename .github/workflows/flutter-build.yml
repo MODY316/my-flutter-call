@@ -1,47 +1,25 @@
-name: Flutter APK Build
+name: Flutter Build
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout source code
-      - name: Checkout source code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Setup Flutter (نسخة حديثة تدعم Dart >= 3.6)
-      - name: Setup Flutter
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.38.3'
+          flutter-version: '3.24.0'
 
-      # 3. Flutter doctor للتحقق من البيئة
-      - name: Flutter doctor
-        run: flutter doctor
-
-      # 4. تثبيت dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. تنظيف المشروع لتجنب مشاكل Gradle
-      - name: Clean project
-        run: flutter clean
-
-      # 6. Build APK بصيغة Release بدون Shrink/Minify وبدون signing
-      - name: Build Release APK (unsigned)
-        run: |
-          echo "Building Release APK..."
-          flutter build apk --release --no-shrink --no-tree-shake-icons --no-sound-null-safety -v
-
-      # 7. رفع الـ APK كـ artifact
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Build APK
+        run: flutter build apk --release
