@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. جلب ملفات المشروع
+      # 1. Checkout source code
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # 2. تثبيت نسخة Flutter حديثة
+      # 2. Setup Flutter النسخة المناسبة لـ Dart >= 3.6
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.0'   # ← نسخة حديثة تدعم Dart >= 3.6
+          flutter-version: '3.38.3'
 
-      # 3. تحديث PATH وإعداد Flutter
+      # 3. التحقق من تثبيت Flutter
       - name: Flutter doctor
         run: flutter doctor
 
@@ -29,15 +29,15 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. تنظيف المشروع (اختياري لكنه يساعد على حل مشاكل البناء)
+      # 5. تنظيف المشروع (اختياري)
       - name: Clean project
         run: flutter clean
 
-      # 6. بناء الـ APK
+      # 6. بناء APK
       - name: Build APK
         run: flutter build apk --release
 
-      # 7. رفع الـ APK كـ artifact
+      # 7. رفع الـ APK
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
