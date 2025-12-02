@@ -1,0 +1,5 @@
+afterEvaluate {
+    if (project.hasProperty('android') && project.android.namespace == null) {
+        android.namespace = project.group.toString()
+    }
+}
