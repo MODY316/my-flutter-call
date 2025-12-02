@@ -15,7 +15,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # 2. Setup Flutter النسخة المناسبة لـ Dart >= 3.6
+      # 2. Setup Flutter (نسخة حديثة تدعم Dart >= 3.6)
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -29,14 +29,13 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. تنظيف المشروع (اختياري لكنه يحل مشاكل البناء)
+      # 5. تنظيف المشروع لتجنب مشاكل البناء
       - name: Clean project
         run: flutter clean
 
-      # 6. بناء APK بصيغة Release
-      # --no-shrink يتجنب مشاكل minify/ProGuard التي قد تسبب فشل Gradle
-      - name: Build APK
-        run: flutter build apk --release --no-shrink -v
+      # 6. Build APK بدون minify/shrink لتجنب فشل Gradle
+      - name: Build Release APK (unsigned)
+        run: flutter build apk --release --no-shrink --no-tree-shake-icons -v
 
       # 7. رفع الـ APK كـ artifact
       - name: Upload APK artifact
